@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ConsoleApplication.Service;
 using Flurl.Http.Testing;
@@ -15,8 +16,12 @@ namespace ConsoleApplication.Tests.Tests
             using var httpTest = new HttpTest();
             httpTest.RespondWith("Internal Server Error", 500);
             var service = new MyService();
-            var isSuccessStatusCode = await service.DoAsync();
-            isSuccessStatusCode.ShouldBeTrue();
+            
+            await Should.ThrowAsync<Exception>(async () =>
+            {
+                var isSuccessStatusCode = await service.DoAsync();
+                isSuccessStatusCode.ShouldBeTrue();
+            });
         }
 
         [Fact]

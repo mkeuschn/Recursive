@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -10,7 +9,7 @@ namespace ConsoleApplication.Service
     {
         public async Task<bool> DoAsync(int retry = 1)
         {
-            HttpResponseMessage response;
+            IFlurlResponse response;
             try
             {
                 response = await "http://www.google.com".GetAsync();
@@ -26,7 +25,7 @@ namespace ConsoleApplication.Service
                 throw;
             }
 
-            return response.IsSuccessStatusCode;
+            return response.ResponseMessage.IsSuccessStatusCode;
         }
     }
 }
